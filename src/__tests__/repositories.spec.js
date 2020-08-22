@@ -73,7 +73,7 @@ describe("Repositories", () => {
   });
 
   it("should not be able to update a repository that does not exist", async () => {
-    await request(app).put(`/repositories/123`).expect(400);
+    await request(app).put(`/repositories/123`).expect(404);
   });
 
   it("should not be able to update repository likes manually", async () => {
@@ -115,6 +115,6 @@ describe("Repositories", () => {
   });
 
   it("should not be able to delete a repository that does not exist", async () => {
-    await request(app).delete(`/repositories/123`).expect(400);
+    await request(app).delete(`/repositories/123`).expect(404);
   });
 });

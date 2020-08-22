@@ -12,7 +12,7 @@ describe("Likes", () => {
       });
 
     let response = await request(app).post(
-      `/repositories/${repository.body.id}/like`
+      `/repositories/${repository.body.id}/likes`
     );
 
     expect(response.body).toMatchObject({
@@ -20,7 +20,7 @@ describe("Likes", () => {
     });
 
     response = await request(app).post(
-      `/repositories/${repository.body.id}/like`
+      `/repositories/${repository.body.id}/likes`
     );
 
     expect(response.body).toMatchObject({
@@ -30,7 +30,7 @@ describe("Likes", () => {
 
   it("should not be able to like a repository that does not exist", async () => {
     await request(app)
-      .post(`/repositories/123/like`)
-      .expect(400);
+      .post(`/repositories/123/likes`)
+      .expect(404);
   });
 });
