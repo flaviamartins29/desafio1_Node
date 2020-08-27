@@ -20,37 +20,37 @@ app.use(cors())
 
 const repositories = {}
 
-const ensureRepositoryExists = ({ params }, res, next) => {
-  const {id} = params
-  const repo = repositories[id]
+app.param(':id', (req, res, next, id) => {
+  const repository = repositories[id]
 
-  if(!repo) {
+  if(!repository) {
     return repositoryNotFoundError(res)
   }
 
+  req.repository = repository
   next()
-}
+})
 
-app.get("/repositories", (request, response) => {
-  const {title} = request.body
+app.get("/repositories", ({ body }, res) => {
+  const {title} = body
 
   const results = title 
     ? Object.values(repositories).filter(repo => repo.title.includes(title))
     : Object.values(repositories)
 
-  return response.status(200).json(results)
+  return res.status(200).json(results)
 })
 
-app.post("/repositories", ({ body }, response) => {
+app.post("/repositories", ({ body }, res) => {
   const id = uuid()
   const repository = createRepositoryFromBody(id, body)
   
   repositories[id] = repository
 
-  created(response, repository)
+  created(res, repository)
 })
 
-app.put("/repositories/:id", ensureRepositoryExists, ({ body, params }, res) => {
+app.put("/repositories/:id", ({ body, params }, res) => {
   const {id} = params
   const repository = createRepositoryFromBody(id, body)
 
@@ -58,7 +58,7 @@ app.put("/repositories/:id", ensureRepositoryExists, ({ body, params }, res) => 
   success(res, repository)
 })
 
-app.delete("/repositories/:id", ensureRepositoryExists, ({ params }, res) => {
+app.delete("/repositories/:id", ({ params }, res) => {
   const {id} = params
 
   delete repositories[id]
@@ -66,13 +66,10 @@ app.delete("/repositories/:id", ensureRepositoryExists, ({ params }, res) => {
   noContent(res)
 })
 
-app.post("/repositories/:id/likes", ensureRepositoryExists, ({ params }, response) => {
-  const {id} = params
-  const repository = repositories[id]
-
+app.post("/repositories/:id/likes", ({ repository }, res) => {
   repository.likes += 1
 
-  created(response, repository)
+  created(res, repository)
 })
 
 module.exports = app
