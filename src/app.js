@@ -1,6 +1,6 @@
 const express = require('express')
 const cors = require('cors')
-const { v4: uuid } = require('uuid')
+const db = require('./inMemoryDB')
 
 const { repositoryNotFoundError, created, success, noContent } = require('./utils')
 
@@ -11,10 +11,8 @@ const app = express()
 app.use(express.json())
 app.use(cors())
 
-const repositories = {}
-
-app.param(':id', (req, res, next, id) => {
-  const repository = repositories[id]
+app.param(':id', async (req, res, next, id) => {
+  const repository = await db.getById(id)
 
   if (!repository) {
     return repositoryNotFoundError(res)
@@ -24,45 +22,37 @@ app.param(':id', (req, res, next, id) => {
   next()
 })
 
-app.get('/repositories', ({ body }, res) => {
-  const { title } = body
-
-  const results = title
-    ? Object.values(repositories).filter((repo) => repo.title.includes(title))
-    : Object.values(repositories)
+app.get('/repositories', async ({ body }, res) => {
+  const results = await db.list(body.title)
 
   success(res, results)
 })
 
-app.post('/repositories', ({ body }, res) => {
-  const id = uuid()
-  const repository = createRepositoryFromBody(id, body)
-
-  repositories[id] = repository
+app.post('/repositories', async ({ body }, res) => {
+  const repository = await db.create(repository)
 
   created(res, repository)
 })
 
-app.put('/repositories/:id', ({ body, params, repository }, res) => {
+app.put('/repositories/:id', async ({ body, params }, res) => {
   const { title, techs, url } = body
-  Object.assign(repository, { title, techs, url })
-  repositories[params.id] = repository
+  const repository = await db.update(params.id, { title, techs, url })
 
   success(res, repository)
 })
 
-app.delete('/repositories/:id', ({ params }, res) => {
-  const { id } = params
-
-  delete repositories[id]
+app.delete('/repositories/:id', async ({ params }, res) => {
+  await db.remove(params.id)
 
   noContent(res)
 })
 
-app.post('/repositories/:id/likes', ({ repository }, res) => {
-  repository.likes += 1
+app.post('/repositories/:id/likes', async ({ params, repository }, res) => {
+  const updatedRepository = await db.update(params.id, {
+    likes: (repository.likes += 1),
+  })
 
-  created(res, repository)
+  created(res, updatedRepository)
 })
 
 module.exports = app
