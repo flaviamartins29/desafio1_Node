@@ -43,11 +43,11 @@ app.post('/repositories', ({ body }, res) => {
   created(res, repository)
 })
 
-app.put('/repositories/:id', ({ body, params }, res) => {
-  const { id } = params
-  const repository = createRepositoryFromBody(id, body)
+app.put('/repositories/:id', ({ body, params, repository }, res) => {
+  const { title, techs, url } = body
+  Object.assign(repository, { title, techs, url })
+  repositories[params.id] = repository
 
-  repositories[id] = repository
   success(res, repository)
 })
 
