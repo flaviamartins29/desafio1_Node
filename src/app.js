@@ -4,8 +4,6 @@ const db = require('./inMemoryDB')
 
 const { repositoryNotFoundError, created, success, noContent } = require('./utils')
 
-const { createRepositoryFromBody } = require('./models/repository')
-
 // const { Router } = express
 const app = express()
 app.use(express.json())
@@ -29,7 +27,7 @@ app.get('/repositories', async ({ body }, res) => {
 })
 
 app.post('/repositories', async ({ body }, res) => {
-  const repository = await db.create(repository)
+  const repository = await db.create(body)
 
   created(res, repository)
 })

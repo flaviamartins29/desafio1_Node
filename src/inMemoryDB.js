@@ -1,20 +1,22 @@
 const { v4: uuid } = require('uuid')
 
-const createRepositoryFromBody = require('./models/repository')
+const { createRepositoryFromBody } = require('./models/repository')
 
 const repositories = {}
 
 async function create(repository) {
   const id = uuid()
-  repositories[id] = createRepositoryFromBody(id, repository)
+  const newRepository = createRepositoryFromBody(id, repository)
 
-  return repository
+  repositories[id] = newRepository
+
+  return newRepository
 }
 
 async function update(id, repository) {
   const existingRepository = await getById(id)
   Object.assign(existingRepository, repository)
-  repositories[params.id] = repository
+  repositories[id] = repository
 
   return existingRepository
 }
@@ -33,4 +35,4 @@ async function getById(id) {
   return repositories[id]
 }
 
-exports = { getById, list, remove, update, create }
+module.exports = { getById, list, remove, update, create }
