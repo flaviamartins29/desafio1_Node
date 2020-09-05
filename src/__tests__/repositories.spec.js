@@ -1,6 +1,16 @@
 const request = require('supertest')
-const app = require('../app')
+const initApp = require('../app')
+const db = require('../inMemoryDB')
 const { isUuid } = require('uuidv4')
+
+let app
+beforeAll(() => {
+  app = initApp(db)
+})
+
+afterAll(() => {
+  //app.close()
+})
 
 describe('Repositories', () => {
   it('should be able to create a new repository', async () => {

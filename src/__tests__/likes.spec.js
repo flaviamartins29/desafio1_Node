@@ -1,5 +1,15 @@
 const request = require('supertest')
-const app = require('../app')
+const initApp = require('../app')
+const db = require('../inMemoryDB')
+
+let app
+beforeAll(() => {
+  app = initApp(db)
+})
+
+afterAll(() => {
+  //app.close()
+})
 
 describe('Likes', () => {
   it('should be able to give a like to the repository', async () => {
