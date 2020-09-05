@@ -5,7 +5,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "nodemon",
-    "test": "jest --testTimeout 5000"
+    "test": "jest"
   },
   "dependencies": {
     "cors": "^2.8.5",
