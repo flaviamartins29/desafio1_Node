@@ -1,10 +1,11 @@
 const request = require('supertest')
 const initApp = require('../app')
-const db = require('../inMemoryDB')
+const initDb = require('../inMemoryDB')
 const { isUuid } = require('uuidv4')
 
 let app
-beforeAll(() => {
+beforeAll(async () => {
+  const db = await initDb()
   app = initApp(db)
 })
 
