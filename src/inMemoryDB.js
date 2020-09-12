@@ -25,10 +25,11 @@ async function remove(id) {
   delete repositories[id]
 }
 
+const filterByTitle = (repo) => repo.title.includes(title)
+
 async function list(title) {
-  return title
-    ? Object.values(repositories).filter((repo) => repo.title.includes(title))
-    : Object.values(repositories)
+  const reposAsArray = Object.values(repositories)
+  return title ? reposAsArray.filter(filterByTitle) : reposAsArray
 }
 
 async function getById(id) {
