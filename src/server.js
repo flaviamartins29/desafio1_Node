@@ -1,5 +1,5 @@
 const initApp = require('./app')
-const initDb = require('./inMemoryDB')
+const initDb = require('./mysqlDB')
 
 async function start() {
   const db = await initDb()
