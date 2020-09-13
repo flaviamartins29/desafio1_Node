@@ -1,12 +1,14 @@
 const mysql = require('mysql2')
 const assert = require('assert')
 
+const { DB_HOST, DB_USER, DB_PASSWORD, DB_DATABASE } = process.env
+
 async function initDb() {
   const db = mysql.createConnection({
-    host: '',
-    user: '',
-    password: '',
-    database: '',
+    host: DB_HOST,
+    user: DB_USER,
+    password: DB_PASSWORD,
+    database: DB_DATABASE,
   })
 
   db.connect()
