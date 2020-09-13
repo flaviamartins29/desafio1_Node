@@ -1,3 +1,5 @@
+require('dotenv').config()
+
 const initApp = require('./app')
 const initDb = require('./mysqlDB')
 
