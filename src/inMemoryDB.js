@@ -1,43 +1,45 @@
-const { v4: uuid } = require('uuid')
+const { v4: uuid } = require('uuid');
 
-const { createRepositoryFromBody } = require('./models/repository')
+const { createRepositoryFromBody } = require('./models/repository');
 
-const repositories = {}
+const repositories = {};
 
 async function initDb() {
   async function create(repository) {
-    const id = uuid()
-    const newRepository = createRepositoryFromBody(id, repository)
+    const id = uuid();
+    const newRepository = createRepositoryFromBody(id, repository);
 
-    repositories[id] = newRepository
+    repositories[id] = newRepository;
 
-    return newRepository
+    return newRepository;
   }
 
   async function update(id, repository) {
-    const existingRepository = await getById(id)
-    Object.assign(existingRepository, repository)
-    repositories[id] = repository
+    const existingRepository = await getById(id);
+    Object.assign(existingRepository, repository);
+    repositories[id] = repository;
 
-    return existingRepository
+    return existingRepository;
   }
 
   async function remove(id) {
-    delete repositories[id]
+    delete repositories[id];
   }
 
-  const filterByTitle = (repo) => repo.title.includes(title)
+  const filterByTitle = (repo) => repo.title.includes(title);
 
   async function list(title) {
-    const reposAsArray = Object.values(repositories)
-    return title ? reposAsArray.filter(filterByTitle) : reposAsArray
+    const reposAsArray = Object.values(repositories);
+    return title ? reposAsArray.filter(filterByTitle) : reposAsArray;
   }
 
   async function getById(id) {
-    return repositories[id]
+    return repositories[id];
   }
 
-  return { getById, list, remove, update, create }
+  return {
+    getById, list, remove, update, create,
+  };
 }
 
-module.exports = initDb
+module.exports = initDb;

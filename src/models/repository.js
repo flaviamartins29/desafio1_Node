@@ -4,4 +4,4 @@ module.exports.createRepositoryFromBody = (id, { title, url, techs }) => ({
   url,
   techs,
   likes: 0,
-})
+});

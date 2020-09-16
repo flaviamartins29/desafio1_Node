@@ -1,16 +1,16 @@
-const request = require('supertest')
-const initApp = require('../app')
-const initDb = require('../inMemoryDB')
+const request = require('supertest');
+const initApp = require('../app');
+const initDb = require('../inMemoryDB');
 
-let app
+let app;
 beforeAll(async () => {
-  const db = await initDb()
-  app = initApp(db)
-})
+  const db = await initDb();
+  app = initApp(db);
+});
 
 afterAll(() => {
-  //app.close()
-})
+  // app.close()
+});
 
 describe('Likes', () => {
   it('should be able to give a like to the repository', async () => {
@@ -20,20 +20,20 @@ describe('Likes', () => {
         url: 'https://github.com/Rocketseat/umbriel',
         title: 'Umbriel',
         techs: ['Node', 'Express', 'TypeScript'],
-      })
+      });
 
-    let response = await request(app).post(`/repositories/${repository.body.id}/likes`)
+    let response = await request(app).post(`/repositories/${repository.body.id}/likes`);
 
     expect(response.body).toMatchObject({
       likes: 1,
-    })
+    });
 
-    response = await request(app).post(`/repositories/${repository.body.id}/likes`)
+    response = await request(app).post(`/repositories/${repository.body.id}/likes`);
 
     expect(response.body).toMatchObject({
       likes: 2,
-    })
-  })
+    });
+  });
 
   it('should not overwrite like count when changing a repo ', async () => {
     const repository = await request(app)
@@ -42,25 +42,25 @@ describe('Likes', () => {
         url: 'https://github.com/Rocketseat/umbriel',
         title: 'Umbriel',
         techs: ['Node', 'Express', 'TypeScript'],
-      })
+      });
 
-    let response = await request(app).post(`/repositories/${repository.body.id}/likes`)
+    const response = await request(app).post(`/repositories/${repository.body.id}/likes`);
 
     expect(response.body).toMatchObject({
       likes: 1,
-    })
+    });
 
-    let updateResponse = await request(app)
+    const updateResponse = await request(app)
       .put(`/repositories/${repository.body.id}`)
       .send({
         url: 'https://github.com/Rocketseat/umbriel',
         title: 'NewTitle',
         techs: ['Node', 'Express', 'TypeScript'],
-      })
-    expect(updateResponse.body.likes).toEqual(1)
-  })
+      });
+    expect(updateResponse.body.likes).toEqual(1);
+  });
 
   it('should not be able to like a repository that does not exist', async () => {
-    await request(app).post(`/repositories/123/likes`).expect(404)
-  })
-})
+    await request(app).post('/repositories/123/likes').expect(404);
+  });
+});
