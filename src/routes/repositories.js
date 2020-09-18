@@ -15,7 +15,7 @@ function initRoutes(db) {
     }
 
     req.repository = repository;
-    next();
+    return next();
   });
 
   repoRouter.get('/', async ({ body }, res) => {
@@ -45,7 +45,7 @@ function initRoutes(db) {
 
   repoRouter.post('/:id/likes', async ({ params, repository }, res) => {
     const updatedRepository = await db.update(params.id, {
-      likes: (repository.likes += 1),
+      likes: repository.likes + 1,
     });
 
     created(res, updatedRepository);

@@ -14,6 +14,10 @@ async function initDb() {
     return newRepository;
   }
 
+  async function getById(id) {
+    return repositories[id];
+  }
+
   async function update(id, repository) {
     const existingRepository = await getById(id);
     Object.assign(existingRepository, repository);
@@ -26,15 +30,11 @@ async function initDb() {
     delete repositories[id];
   }
 
-  const filterByTitle = (repo) => repo.title.includes(title);
-
   async function list(title) {
+    const filterByTitle = (repo) => repo.title.includes(title);
+
     const reposAsArray = Object.values(repositories);
     return title ? reposAsArray.filter(filterByTitle) : reposAsArray;
-  }
-
-  async function getById(id) {
-    return repositories[id];
   }
 
   return {
