@@ -8,6 +8,11 @@
     "test": "jest",
     "lint": "eslint ."
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "yarn lint"
+    }
+  },
   "dependencies": {
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
@@ -21,6 +26,7 @@
     "eslint-config-airbnb-base": "^14.2.0",
     "eslint-plugin-import": "^2.22.0",
     "eslint-plugin-jest": "^24.0.1",
+    "husky": "^4.3.0",
     "jest": "^25.2.6",
     "nodemon": "^2.0.2",
     "supertest": "^4.0.2"
