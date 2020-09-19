@@ -1,7 +1,7 @@
 require('dotenv').config();
 
 const initApp = require('./app');
-const initDb = require('./mysqlDB');
+const initDb = require('./sequelizeDB');
 
 async function start() {
   const db = await initDb();
