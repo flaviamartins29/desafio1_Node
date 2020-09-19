@@ -1,7 +1,10 @@
 const { Router } = require('express')
 
 const {
-  repositoryNotFoundError, created, success, noContent,
+  repositoryNotFoundError,
+  created,
+  success,
+  noContent,
 } = require('../utils')
 
 function initRoutes(db) {
@@ -22,6 +25,10 @@ function initRoutes(db) {
     const results = await db.list(body.title)
 
     success(res, results)
+  })
+
+  repoRouter.get('/:id', async ({ repository }, res) => {
+    success(res, repository)
   })
 
   repoRouter.post('/', async ({ body }, res) => {
