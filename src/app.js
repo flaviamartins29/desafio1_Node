@@ -1,15 +1,15 @@
-const express = require('express');
-const cors = require('cors');
-const initRepoRouter = require('./routes/repositories');
+const express = require('express')
+const cors = require('cors')
+const initRepoRouter = require('./routes/repositories')
 
 function initApp(db) {
-  const app = express();
-  app.use(express.json());
-  app.use(cors());
+  const app = express()
+  app.use(express.json())
+  app.use(cors())
 
-  app.use('/repositories', initRepoRouter(db));
+  app.use('/repositories', initRepoRouter(db))
 
-  return app;
+  return app
 }
 
-module.exports = initApp;
+module.exports = initApp
