@@ -1,5 +1,5 @@
 const { Sequelize, Op } = require('sequelize')
-const initRepository = require('./models/repositorySequelize')
+const initRepository = require('./models/repository')
 
 const {
   DB_HOST, DB_USER, DB_PASSWORD, DB_DATABASE, DB_DIALECT,

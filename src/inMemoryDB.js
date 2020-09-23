@@ -1,6 +1,13 @@
 const { v4: uuid } = require('uuid')
 
-const { createRepositoryFromBody } = require('./models/repository')
+const createRepositoryFromBody = (id, { title, url, techs }) =>
+  ({
+    id,
+    title,
+    url,
+    techs,
+    likes: 0,
+  })
 
 const repositories = {}
 
