@@ -25,5 +25,8 @@ module.exports.initModel = (sequelize) =>
   )
 
 module.exports.associate = ({ Repository, Tech }) => {
-  Repository.hasMany(Tech)
+  Repository.hasMany(Tech, {
+    as: 'techs',
+    foreignKey: 'repository_id',
+  })
 }

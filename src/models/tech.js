@@ -10,7 +10,10 @@ module.exports.initModel = (sequelize) =>
         autoIncrement: true,
         primaryKey: true,
       },
-      repositoryId: DataTypes.INTEGER,
+      repositoryId: {
+        type: DataTypes.INTEGER,
+        field: 'repository_id',
+      },
       name: DataTypes.STRING(100),
     },
     {

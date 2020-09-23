@@ -21,6 +21,7 @@ async function initDb() {
   async function getById(id) {
     return Repository.findOne({
       where: { id },
+      include: 'techs',
     })
   }
 
@@ -53,7 +54,10 @@ async function initDb() {
       where.title = { [Op.substring]: title }
     }
 
-    return Repository.findAll({ where })
+    return Repository.findAll({
+      where,
+      include: 'techs',
+    })
   }
 
   return {
