@@ -1,5 +1,6 @@
 const { Sequelize, Op } = require('sequelize')
-const initRepository = require('./models/repository')
+const repository = require('./models/repository')
+const tech = require('./models/tech')
 
 const {
   DB_HOST, DB_USER, DB_PASSWORD, DB_DATABASE, DB_DIALECT,
@@ -13,7 +14,9 @@ async function initDb() {
 
   await sequelize.authenticate()
 
-  const Repository = initRepository(sequelize)
+  const Repository = repository.initModel(sequelize)
+  const Tech = tech.initModel(sequelize)
+  repository.associate({ Repository, Tech })
 
   async function getById(id) {
     return Repository.findOne({

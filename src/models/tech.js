@@ -1,29 +1,26 @@
 const { Model, DataTypes } = require('sequelize')
 
-class Repository extends Model {}
+class Tech extends Model {}
 
 module.exports.initModel = (sequelize) =>
-  Repository.init(
+  Tech.init(
     {
       id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true,
       },
-      title: DataTypes.STRING(100),
-      url: DataTypes.STRING(256),
-      likes: DataTypes.INTEGER,
+      repositoryId: DataTypes.INTEGER,
+      name: DataTypes.STRING(100),
     },
     {
       sequelize,
-      modelName: 'Repository',
-      tableName: 'repositories',
+      modelName: 'Tech',
+      tableName: 'techs',
       freezeTableName: true,
       createdAt: false,
       updatedAt: false,
     },
   )
 
-module.exports.associate = ({ Repository, Tech }) => {
-  Repository.hasMany(Tech)
-}
+module.exports.associate = () => {}
