@@ -10,5 +10,6 @@ parserOptions:
 rules:
   semi: 0
   implicit-arrow-linebreak: ['error', 'below']
+  no-shadow: 0
 plugins:
   - jest
