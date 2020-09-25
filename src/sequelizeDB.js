@@ -25,8 +25,17 @@ async function initDb() {
     })
   }
 
-  async function create(repository) {
-    return Repository.create(repository)
+  async function create({ techs, ...repository }) {
+    // eslint-disable-next-line no-param-reassign
+    repository.techs = techs.map((tech) =>
+      ({
+        name: tech,
+        repositoryId: repository.id,
+      }))
+
+    return Repository.create(repository, {
+      include: 'techs',
+    })
   }
 
   async function update(id, repository) {
