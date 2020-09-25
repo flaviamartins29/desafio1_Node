@@ -25,9 +25,12 @@ async function initDb() {
     })
   }
 
+  const removeDuplication = (array) =>
+    Array.from(new Set(array))
+
   async function create({ techs, ...repository }) {
     // eslint-disable-next-line no-param-reassign
-    repository.techs = techs.map((tech) =>
+    repository.techs = removeDuplication(techs).map((tech) =>
       ({
         name: tech,
         repositoryId: repository.id,
